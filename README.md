@@ -1,62 +1,71 @@
 # MDP REPRESENTATION
 
 ## AIM:
-The aim of this experiment is to create a Markov Decision Process (MDP) representation and implement it in Python to model the decision-making process in a Elevator Control System.
+To represent any one real-world problem AI agent that learns to play the Tic-Tac-Toe (XO) game in MDP form.
 
-### Problem Description:
-The elevator control system should make decisions about which action to take based on the current floor and the possible outcomes of each action. The system must handle stochastic transitions, meaning that there is a probabilistic chance that the elevator may not reach the desired floor due to mechanical issues or other uncertainties.
+## PROBLEM STATEMENT:
+To solve the Tick-Tack-Toe game
 
-### State Space:
+## Problem Description
+The problem is to develop an AI agent that learns to play the Tic-Tac-Toe (XO) game optimally using Reinforcement Learning. The agent should learn a policy that allows it to make the best moves in order to win or achieve a draw against an opponent.
 
-state 0: Ground Floor<br>
-state 1: First Floor<br>
-state 2: Second Floor (reward is achieved in top floor(2nd floor))
+## State Space
+The state space represents all possible configurations of the Tic-Tac-Toe board. Each cell can be empty, filled with an X, or filled with an O. As there are 9 cells in a 3x3 grid, there are 3 to the power 9 = 19683 possible states.
 
-### Sample State:
+## Sample State
+![2](https://github.com/Pravinrajj/mdp-representation/assets/117917674/4b69a82d-bc9f-42d5-9af1-04b14be85941)
+In this sample state, the Tic-Tac-Toe board is shown with Xs and Os placed in certain cells. Each cell can be empty, have an X, or have an O. The state captures the current configuration of the game board, which is a critical aspect of the game's dynamics.
 
-state: Ground Floor -> represented numerically as 0<br>
-state: First Floor -> represented numerically as 1<br>
-state: second Floor -> represented numerically as 2
+## Action Space
+The action space consists of all the possible actions that the agent can take in a given state. In Tic-Tac-Toe, an action corresponds to placing an X or an O in an empty cell on the board.
 
-### Action Space:
+## Sample Action
+![1](https://github.com/Pravinrajj/mdp-representation/assets/117917674/0d9c417d-fa41-49cd-8830-4d47ce247f9d)
 
-Action 0: Moves Down<br>
-Action 1: Moves Up
+In simpler terms, imagine the Tic-Tac-Toe game board with Xs and Os placed in certain spots. When it's the AI's turn, it decides to put its X in the bottom-right corner because it thinks it's the best move. This action changes the game board, and now there's an X in that corner. This action shows how the AI plays the game by picking where to place its X based on what's already on the board. This process keeps going until the game is won or ends in a tie, and the AI learns from each action to get better at playing.
 
-### Sample Action
-0:[(0.9,1,-1.0,False),(0.1,1,-1.0,False)] <br>
-From Ground Floor (0) Elevator moves to next Floor that is First Floor (1) with the transition probability of 0.9<br>
-And 0.1 probability to stay in the same floor(1) and both doesn't reach the goal State of Top Floor ot earns reward of -1.0.
+## Reward Function
+The reward function provides immediate feedback to the agent based on the action it takes. The rewards can be defined as follows:
 
-### Reward Function
-Reward: +10.0  => If the Elevator Reaches the Top Floor of the Building<br>
-Reward: -1.0   => For all other Intermidiate States
++1 if the agent wins the game.
+-1 if the opponent wins the game.
+0 for any other state that doesn't lead to an immediate win or loss.
 
-### Graphical Representation
-![MDP graph represetation](https://github.com/user-attachments/assets/49f37c27-c1ce-402e-bddf-0845c24512a9)
-
+## Graphical Representation
+![5](https://github.com/Pravinrajj/mdp-representation/assets/117917674/ca8a9283-dfbb-4878-939b-2f56a59513e9)
 
 ## PYTHON REPRESENTATION:
-```
-p = {
-    0: {  #GROUND FLOOR
-        0:[(0.9,0,-1.0,False),(0.1,1,-1.0,False)],
-        1:[(0.9,1,-1.0,False),(0.1,0,-1.0,False)]
+~~~
+Developed By: ARVIND S
+Ref No: 212222240012
+~~~
+~~~python
+import gym
+import gym_walk
+
+P={
+    0: {
+        0: [(1.0, 0, 0.0, True), (0.0, 0, 0.0, True), (0.0, 0, 0.0, True)],
+        1: [(1.0, 0, 0.0, True), (0.0, 0, 0.0, True), (0.0, 0, 0.0, True)],
+        2: [(1.0, 0, 0.0, True), (0.0, 0, 0.0, True), (0.0, 0, 0.0, True)]
     },
-    1: { #FIRST FLOOR
-        0:[(0.9,0,-1.0,False),(0.1,1,-1.0,False)],
-        1:[(0.9,2,+10.0,False),(0.1,1,-1.0,False)]
+    1: {
+        0: [(1.0, 0, 0.0, True), (0.0, 1, 0.0, False), (0.0, 2, 1.0, True)],
+        1: [(1.0, 2, 1.0, True), (0.0, 1, 0.0, False), (0.0, 0, 0.0, True)],
+        2: [(1.0, 2, 0.0, True), (0.0, 1, 0.0, False), (0.0, 2, 1.0, True)]
     },
-    2: { #SECOND FLOOR
-        0:[(0.9,1,-1.0,False),(0.1,2,+10.0,False)],
-        1:[(0.9,2,+10.0,False),(0.1,1,-1.0,False)]
+    2: {
+        0: [(1.0, 2, 0.0, True), (0.0, 2, 0.0, True), (0.0, 2, 0.0, True)],
+        1: [(1.0, 2, 0.0, True), (0.0, 2, 0.0, True), (0.0, 2, 0.0, True)],
+        2: [(1.0, 2, 0.0, True), (0.0, 2, 0.0, True), (0.0, 2, 0.0, True)]
     }
 }
-```
+
+P
+~~~
 
 ## OUTPUT:
-![image](https://github.com/user-attachments/assets/3925b2af-b302-416a-9006-b3c3b0a51cf8)
-
+![3](https://github.com/Pravinrajj/mdp-representation/assets/117917674/c551de65-b3de-4f11-97ea-cc8048d5da24)
 
 ## RESULT:
-Thus the given real world problem is successfully represented in a MDP form.
+Thus, the MDP is used to create a AI to play Tick-Tack-Toe game has successfullu created.
